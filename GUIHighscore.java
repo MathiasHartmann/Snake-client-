@@ -6,14 +6,19 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class GUIHighscore extends JPanel {
+	
+	private Main client;
 
 	/**
 	 * Create the panel.
 	 */
-	public GUIHighscore() {
+	public GUIHighscore(Main client) {
 		
+		this.client = client;
 		this.setBackground(new Color(255, 255, 240));
 		this.setLayout(null);
 		
@@ -50,6 +55,15 @@ public class GUIHighscore extends JPanel {
 		this.add(list_2);
 		
 		JButton btnGetBack = new JButton("Get Back");
+		btnGetBack.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				GUIHighscore This = (GUIHighscore) (e.getComponent().getParent());
+				
+				This.client.changePage(new GUIMenu(This.client));
+			}
+		});
 		btnGetBack.setBackground(new Color(238, 130, 238));
 		btnGetBack.setFont(new Font("Tempus Sans ITC", Font.BOLD, 11));
 		btnGetBack.setBounds(299, 227, 89, 23);

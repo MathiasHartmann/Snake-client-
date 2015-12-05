@@ -9,12 +9,15 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 public class GUIJoinGame extends JPanel {
+	
+	private Main client;
 
 	/**
 	 * Create the panel.
 	 */
-	public GUIJoinGame() {
+	public GUIJoinGame(Main client) {
 		
+		this.client = client;
 		this.setBackground(new Color(255, 255, 240));
 		this.setLayout(null);
 		

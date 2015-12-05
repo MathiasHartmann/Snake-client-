@@ -6,16 +6,20 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class GUIDelete extends JPanel {
 	
 	private JTextField textField;
+	private Main client;
 
 	/**
 	 * Create the panel.
 	 */
-	public GUIDelete() {
+	public GUIDelete(Main client) {
 		
+		this.client = client;
 		this.setBackground(new Color(255, 255, 240));
 		this.setLayout(null);
 		
@@ -40,6 +44,15 @@ public class GUIDelete extends JPanel {
 		this.add(btnDeleteGame);
 		
 		JButton btnGetBack = new JButton("Get Back");
+		btnGetBack.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				GUIDelete This = (GUIDelete) (e.getComponent().getParent());
+				
+				This.client.changePage(new GUIMenu(This.client));
+			}
+		});
 		btnGetBack.setBackground(new Color(138, 43, 226));
 		btnGetBack.setFont(new Font("Tempus Sans ITC", Font.BOLD, 11));
 		btnGetBack.setBounds(267, 213, 89, 23);

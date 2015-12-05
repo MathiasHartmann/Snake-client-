@@ -8,12 +8,15 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 public class GUIPlayGame extends JPanel {
+	
+	private Main client;
 
 	/**
 	 * Create the panel.
 	 */
-	public GUIPlayGame() {
+	public GUIPlayGame(Main client) {
 		
+		this.client = client;
 		this.setBackground(new Color(255, 255, 240));
 		this.setLayout(null);
 		
