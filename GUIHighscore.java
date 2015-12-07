@@ -33,17 +33,12 @@ public class GUIHighscore extends JPanel {
 		
 		JLabel lblNewLabel = new JLabel("Name Highscore");
 		lblNewLabel.setFont(new Font("Tempus Sans ITC", Font.BOLD, 11));
-		lblNewLabel.setBounds(41, 53, 95, 14);
+		lblNewLabel.setBounds(99, 53, 95, 14);
 		this.add(lblNewLabel);
-		
-		JLabel lblGameHighscore = new JLabel("Game Highscore");
-		lblGameHighscore.setFont(new Font("Tempus Sans ITC", Font.BOLD, 11));
-		lblGameHighscore.setBounds(162, 53, 95, 14);
-		this.add(lblGameHighscore);
 		
 		JLabel lblOverallHighscore = new JLabel("Overall Highscore");
 		lblOverallHighscore.setFont(new Font("Tempus Sans ITC", Font.BOLD, 11));
-		lblOverallHighscore.setBounds(286, 53, 102, 14);
+		lblOverallHighscore.setBounds(217, 53, 102, 14);
 		this.add(lblOverallHighscore);
 		
 		JButton btnGetBack = new JButton("Get Back");
@@ -83,7 +78,7 @@ public class GUIHighscore extends JPanel {
         }
         
         JLabel lblNewLabel_1 = new JLabel(Integer.toString(Highscore));
-		lblNewLabel_1.setBounds(41, 78, 95, 23);
+		lblNewLabel_1.setBounds(99, 78, 95, 23);
 		add(lblNewLabel_1);
         
         JSONObject OverallHighscore = new JSONObject();
@@ -107,12 +102,8 @@ public class GUIHighscore extends JPanel {
         }
 		
         JLabel lblNewLabel_3 = new JLabel(Integer.toString(Highscore));
-		lblNewLabel_3.setBounds(286, 78, 102, 23);
+		lblNewLabel_3.setBounds(217, 78, 102, 23);
 		add(lblNewLabel_3);
-     
-		JLabel lblNewLabel_2 = new JLabel(Integer.toString(Highscore));
-		lblNewLabel_2.setBounds(162, 79, 95, 22);
-		add(lblNewLabel_2);
 
 	}
 }

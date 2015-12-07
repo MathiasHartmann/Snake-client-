@@ -22,7 +22,7 @@ public class GUIMenu extends JPanel {
 		this.setBackground(new Color(255, 255, 240));
 		this.setLayout(null);
 		
-		JLabel lblWelcomeNameTo = new JLabel("Welcome Name to The Snakepit");
+		JLabel lblWelcomeNameTo = new JLabel("Welcome " + this.client.getCurrentUser() + " to The Snakepit");
 		lblWelcomeNameTo.setFont(new Font("Tempus Sans ITC", Font.BOLD, 22));
 		lblWelcomeNameTo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblWelcomeNameTo.setBounds(61, 11, 331, 27);
