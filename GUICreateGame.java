@@ -27,6 +27,7 @@ public class GUICreateGame extends JPanel {
 	
 	private JTextField textField;
 	private Main client;
+	private JList list; 
 
 	/**
 	 * Create the panel.
@@ -34,6 +35,24 @@ public class GUICreateGame extends JPanel {
 	public GUICreateGame(Main client) {
 		
 		this.client = client;
+		
+		class item {
+			
+			public int highscore;
+			public String gameName;
+			public item(int highscore, String gameName) {
+				
+				this.highscore = highscore; 
+				this.gameName = gameName;
+			}
+			
+			public String toString() {
+				
+				return this.gameName+ "    " + this.highscore;
+			}
+			
+		}
+		
 		this.setBackground(new Color(255, 255, 240));
 		this.setLayout(null);
 		
@@ -52,6 +71,10 @@ public class GUICreateGame extends JPanel {
 		textField.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Create Game");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -70,7 +93,7 @@ public class GUICreateGame extends JPanel {
 					if (success != null && success.has("Result")) {	
 						
 						if (success.getBoolean("Result")) {
-							This.client.changePage(new GUIMenu(This.client));
+							This.client.changePage(new ActualGame(This.client));
 						}
 					}
 					 	
@@ -112,6 +135,41 @@ public class GUICreateGame extends JPanel {
 		add(label_1);
 		
 		JButton button = new JButton("Join Game");
+		button.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				GUICreateGame This = (GUICreateGame) (e.getComponent().getParent());
+				
+				JSONObject JoinGame = new JSONObject(); 
+				
+				try {
+					
+					item Selection = (item) This.list.getSelectedValue();
+		            
+					JoinGame.put("GameName", Selection.gameName);
+		            JoinGame.put("Username", This.client.getCurrentUser());
+		            JoinGame.put("Method", "JoinGame");
+		            
+		            JSONObject Response = This.client.MessageToServer(JoinGame);
+		            
+		            if (Response != null && Response.has("Result")) {
+		                
+		                boolean ThisResult = Response.getBoolean("Result");
+		                
+		                if (ThisResult) {
+		                	
+		                	This.client.changePage(new ActualGame(This.client));
+		                	
+		                }
+		            }
+		            
+		        } catch (JSONException e1) {
+		            // TODO Auto-generated catch block
+		            e1.printStackTrace();
+		        }
+			}
+		});
 		button.setBackground(new Color(189, 183, 107));
 		button.setBounds(187, 184, 111, 45);
 		add(button);
@@ -138,7 +196,7 @@ public class GUICreateGame extends JPanel {
             e1.printStackTrace();
         }
 		
-		JList list = new JList();
+		list = new JList();
 		list.setBorder(new LineBorder(UIManager.getColor("Button.shadow")));
 		list.setBackground(Color.WHITE);
 		list.setBounds(187, 99, 150, 78);
@@ -156,9 +214,8 @@ public class GUICreateGame extends JPanel {
 					
 					CurrentGame = GameList.getJSONObject(i);
 					
-					listModel.addElement(CurrentGame.getString("Name") + "      " + CurrentGame.getInt("Highscore"));
+					listModel.addElement(new item(CurrentGame.getInt("Highscore"), CurrentGame.getString("Name")));
                     
-					
 			    } catch (JSONException e1) {
 		            // TODO Auto-generated catch block
 		            e1.printStackTrace();
