@@ -6,6 +6,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
@@ -41,6 +45,32 @@ public class GUICreateGame extends JPanel {
 		textField.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Create Game");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				GUICreateGame This = (GUICreateGame) (e.getComponent().getParent());
+				
+				JSONObject CreateGame = new JSONObject(); 
+				
+				try {
+					CreateGame.put("Method", "CreateGame");
+					CreateGame.put("GameName", This.textField.getText()); 
+					JSONObject success = This.client.MessageToServer(CreateGame);
+					
+					if (success != null && success.has("Result")) {	
+						
+						if (success.getBoolean("Result")) {
+							This.client.changePage(new GUIMenu(This.client));
+						}
+					}
+					 	
+				} catch (JSONException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnNewButton.setBackground(new Color(154, 205, 50));
 		btnNewButton.setBounds(56, 130, 111, 45);
 		this.add(btnNewButton);

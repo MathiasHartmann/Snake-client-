@@ -63,9 +63,10 @@ public class GUILogin extends JPanel {
 					login.put("Method", "Login");
 					JSONObject success = This.client.MessageToServer(login);
 					
-					if (success != null && success.getBoolean("Result")) {	
+					if (success != null && success.has("Result")) {	
 						
 						if (success.getBoolean("Result")) {
+							This.client.setCurrentUser(This.txtQ.getText());
 							This.client.changePage(new GUIMenu(This.client));
 						}
 					}

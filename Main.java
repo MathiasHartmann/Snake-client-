@@ -18,7 +18,8 @@ public class Main {
 	private JFrame frame;
 	private String serverAdresse = "localhost";
 	private int port = 10800; 
-	private Socket socket;  
+	private Socket socket; 
+	private String CurrentUser;
 
 	/**
 	 * Launch the application.
@@ -100,4 +101,12 @@ Socket kkSocket;
 		System.out.println(response);
 		return response;
 	}
+	
+	public String getCurrentUser() {
+        return CurrentUser;
+    }
+
+	public void setCurrentUser(String currentUser) {
+        CurrentUser = currentUser;
+    }
 }

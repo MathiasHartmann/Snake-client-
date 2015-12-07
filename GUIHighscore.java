@@ -6,6 +6,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -42,18 +46,6 @@ public class GUIHighscore extends JPanel {
 		lblOverallHighscore.setBounds(286, 53, 102, 14);
 		this.add(lblOverallHighscore);
 		
-		JList list = new JList();
-		list.setBounds(41, 79, 95, 14);
-		this.add(list);
-		
-		JList list_1 = new JList();
-		list_1.setBounds(161, 79, 96, 113);
-		this.add(list_1);
-		
-		JList list_2 = new JList();
-		list_2.setBounds(286, 78, 102, 113);
-		this.add(list_2);
-		
 		JButton btnGetBack = new JButton("Get Back");
 		btnGetBack.addMouseListener(new MouseAdapter() {
 			@Override
@@ -68,7 +60,59 @@ public class GUIHighscore extends JPanel {
 		btnGetBack.setFont(new Font("Tempus Sans ITC", Font.BOLD, 11));
 		btnGetBack.setBounds(299, 227, 89, 23);
 		this.add(btnGetBack);
+		
+		JSONObject NameHighscore = new JSONObject();
+        
+        int Highscore = -1;
+        
+        try {
+            
+            NameHighscore.put("Username", this.client.getCurrentUser());
+            NameHighscore.put("Method", "UserHighscore");
+            
+            JSONObject Response = this.client.MessageToServer(NameHighscore);
+            
+            if (Response != null && Response.has("Result")) {
+                
+                Highscore = Response.getInt("Result");  
+            }
+            
+        } catch (JSONException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+        
+        JLabel lblNewLabel_1 = new JLabel(Integer.toString(Highscore));
+		lblNewLabel_1.setBounds(41, 78, 95, 23);
+		add(lblNewLabel_1);
+        
+        JSONObject OverallHighscore = new JSONObject();
+        
+        Highscore = -1;
+        
+        try {
+            
+            OverallHighscore.put("Method", "GlobalHighscore");
+            
+            JSONObject Response = this.client.MessageToServer(OverallHighscore);
+            
+            if (Response != null && Response.has("Result")) {
+                
+                Highscore = Response.getInt("Result");  
+            }
+            
+        } catch (JSONException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+		
+        JLabel lblNewLabel_3 = new JLabel(Integer.toString(Highscore));
+		lblNewLabel_3.setBounds(286, 78, 102, 23);
+		add(lblNewLabel_3);
+     
+		JLabel lblNewLabel_2 = new JLabel(Integer.toString(Highscore));
+		lblNewLabel_2.setBounds(162, 79, 95, 22);
+		add(lblNewLabel_2);
 
 	}
-
 }
