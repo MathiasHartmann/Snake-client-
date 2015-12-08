@@ -10,11 +10,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.JTextField;
 
 public class ActualGame extends JPanel {
 
 	private Main client;
 	private JSONObject CurrentGame = null;
+	private JTextField textField;
+	private JLabel lblNewLabel_2;
 	/**
 	 * Create the panel.
 	 */
@@ -144,6 +147,83 @@ public class ActualGame extends JPanel {
 			lblNewLabel_1.setBounds(40, 91, 46, 14);
 			add(lblNewLabel_1);
 			
+			JButton btnNewButton = new JButton("Send Moves");
+			btnNewButton.setBackground(new Color(0, 255, 255));
+			btnNewButton.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					
+					ActualGame This = (ActualGame) (e.getComponent().getParent());
+					
+					JSONObject UserInput = new JSONObject();
+					
+					try {
+						
+						UserInput.put("Username", This.client.getCurrentUser());
+						UserInput.put("GameName", This.CurrentGame.getString("GameName"));
+						UserInput.put("Method", "UserInput");
+						UserInput.put("UserInput", This.textField.getText());
+						
+						JSONObject Response = This.client.MessageToServer(UserInput);
+						
+						if (Response != null && Response.has("Result")) {
+							
+							int State = Response.getInt("Result");
+							
+							if (State != -1) {
+								int Player = 1;
+								
+								if (This.CurrentGame.getString("Player2").equals(This.client.getCurrentUser())) {
+									
+									Player = 2;
+								}
+								
+								String Text;
+								
+								if (State == Player) {
+									
+									Text = "You Win";
+								}
+								else {
+									
+									Text = "You Loss";
+								}
+								
+								if (State == 0) {
+									
+									Text = "Next Round";
+								}
+								
+								if (State == -2) {
+									
+									Text = "Waiting for the other player";
+								}
+								
+								This.lblNewLabel_2.setText(Text);
+							}
+						}
+						
+					} catch (JSONException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
+					
+				}
+			});
+			btnNewButton.setBounds(175, 205, 117, 23);
+			add(btnNewButton);
+			
+			textField = new JTextField();
+			textField.setBounds(175, 174, 117, 20);
+			add(textField);
+			textField.setColumns(10);
+			
+			lblNewLabel_2 = new JLabel("");
+			lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
+			lblNewLabel_2.setBounds(190, 125, 86, 14);
+			add(lblNewLabel_2);
+			
 			if (CurrentGame.has("Player2")) {
 			
 				JLabel label = new JLabel(CurrentGame.getString("Player2"));
@@ -164,5 +244,4 @@ public class ActualGame extends JPanel {
 		}
 
 	}
-
 }
