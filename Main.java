@@ -19,7 +19,7 @@ public class Main {
 	private String serverAdresse = "localhost";
 	private int port = 10800; 
 	private Socket socket; 
-	private String CurrentUser;
+	private String CurrentUser = null;
 
 	/**
 	 * Launch the application.

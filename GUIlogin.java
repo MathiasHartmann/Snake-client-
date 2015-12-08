@@ -30,6 +30,7 @@ public class GUILogin extends JPanel {
 	public GUILogin(Main client) {
 		
 		this.client = client;
+		this.client.setCurrentUser(null);
 		this.setLayout(null);
 		
 		txtQ = new JTextField();
@@ -66,7 +67,7 @@ public class GUILogin extends JPanel {
 					if (success != null && success.has("Result")) {	
 						
 						if (success.getBoolean("Result")) {
-							This.client.setCurrentUser(This.txtQ.getText());
+							This.client.setCurrentUser(success.getString("Username"));
 							This.client.changePage(new GUIMenu(This.client));
 						}
 					}

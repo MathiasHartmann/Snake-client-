@@ -78,7 +78,7 @@ public class GUIHighscore extends JPanel {
         }
         
         JLabel lblNewLabel_1 = new JLabel(Integer.toString(Highscore));
-		lblNewLabel_1.setBounds(99, 78, 95, 23);
+		lblNewLabel_1.setBounds(132, 78, 43, 23);
 		add(lblNewLabel_1);
         
         JSONObject OverallHighscore = new JSONObject();
@@ -102,7 +102,7 @@ public class GUIHighscore extends JPanel {
         }
 		
         JLabel lblNewLabel_3 = new JLabel(Integer.toString(Highscore));
-		lblNewLabel_3.setBounds(217, 78, 102, 23);
+		lblNewLabel_3.setBounds(254, 78, 43, 23);
 		add(lblNewLabel_3);
 
 	}

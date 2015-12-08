@@ -48,7 +48,7 @@ public class GUICreateGame extends JPanel {
 			
 			public String toString() {
 				
-				return this.gameName+ "    " + this.highscore;
+				return this.gameName+ "  " + this.highscore;
 			}
 			
 		}
@@ -80,20 +80,19 @@ public class GUICreateGame extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				
 				GUICreateGame This = (GUICreateGame) (e.getComponent().getParent());
-				
-				This.client.changePage(new ActualGame(This.client));
-				
+								
 				JSONObject CreateGame = new JSONObject(); 
 				
 				try {
 					CreateGame.put("Method", "CreateGame");
+					CreateGame.put("Username", This.client.getCurrentUser());
 					CreateGame.put("GameName", This.textField.getText()); 
 					JSONObject success = This.client.MessageToServer(CreateGame);
 					
 					if (success != null && success.has("Result")) {	
 						
 						if (success.getBoolean("Result")) {
-							This.client.changePage(new ActualGame(This.client));
+							This.client.changePage(new ActualGame(This.client, This.textField.getText()));
 						}
 					}
 					 	
@@ -141,33 +140,36 @@ public class GUICreateGame extends JPanel {
 				
 				GUICreateGame This = (GUICreateGame) (e.getComponent().getParent());
 				
-				JSONObject JoinGame = new JSONObject(); 
+				JSONObject JoinGame = new JSONObject();
 				
-				try {
-					
-					item Selection = (item) This.list.getSelectedValue();
-		            
-					JoinGame.put("GameName", Selection.gameName);
-		            JoinGame.put("Username", This.client.getCurrentUser());
-		            JoinGame.put("Method", "JoinGame");
-		            
-		            JSONObject Response = This.client.MessageToServer(JoinGame);
-		            
-		            if (Response != null && Response.has("Result")) {
-		                
-		                boolean ThisResult = Response.getBoolean("Result");
-		                
-		                if (ThisResult) {
-		                	
-		                	This.client.changePage(new ActualGame(This.client));
-		                	
-		                }
-		            }
-		            
-		        } catch (JSONException e1) {
-		            // TODO Auto-generated catch block
-		            e1.printStackTrace();
-		        }
+				item Selection = (item) This.list.getSelectedValue();
+				
+				if (Selection != null) {
+				
+					try {
+									            
+						JoinGame.put("GameName", Selection.gameName);
+			            JoinGame.put("Username", This.client.getCurrentUser());
+			            JoinGame.put("Method", "JoinGame");
+			            
+			            JSONObject Response = This.client.MessageToServer(JoinGame);
+			            
+			            if (Response != null && Response.has("Result")) {
+			                
+			                boolean ThisResult = Response.getBoolean("Result");
+			                
+			                if (ThisResult) {
+			                	
+			                	This.client.changePage(new ActualGame(This.client, Selection.gameName));
+			                	
+			                }
+			            }
+			            
+			        } catch (JSONException e1) {
+			            // TODO Auto-generated catch block
+			            e1.printStackTrace();
+			        }
+				}
 			}
 		});
 		button.setBackground(new Color(189, 183, 107));
@@ -235,6 +237,7 @@ public class GUICreateGame extends JPanel {
 		}
 		
 		JButton btnOpdate = new JButton("Opdate");
+		btnOpdate.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		btnOpdate.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -245,7 +248,7 @@ public class GUICreateGame extends JPanel {
 			}
 			
 		});
-		btnOpdate.setBounds(343, 98, 89, 23);
+		btnOpdate.setBounds(343, 98, 69, 23);
 		add(btnOpdate);
 
 	}
