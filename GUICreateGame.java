@@ -23,8 +23,8 @@ import java.awt.List;
 import javax.swing.border.LineBorder;
 import javax.swing.UIManager;
 
-public class GUICreateGame extends JPanel {
-	
+public class GUICreateGame extends JPanel { //Klassen nedarver fra JPanel
+	//Instanitere lokalvariable
 	private JTextField textField;
 	private Main client;
 	private JList list; 
@@ -32,12 +32,12 @@ public class GUICreateGame extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public GUICreateGame(Main client) {
+	public GUICreateGame(Main client) { //Klassens konstruktør
 		
-		this.client = client;
+		this.client = client; //this.client sættes ind i client
 		
-		class item {
-			
+		class item {// klasse som kan indeholder spillets navn som man kan se i gui, det kan holde på highscoren og brugernavn
+			//Instanitere lokalvariable
 			public int highscore;
 			public String gameName;
 			public item(int highscore, String gameName) {
@@ -48,7 +48,8 @@ public class GUICreateGame extends JPanel {
 			
 			public String toString() {
 				
-				return this.gameName+ "  " + this.highscore;
+				return this.gameName+ "  " + this.highscore; // returne en string så det er læseligt
+
 			}
 			
 		}
@@ -56,12 +57,12 @@ public class GUICreateGame extends JPanel {
 		this.setBackground(new Color(255, 255, 240));
 		this.setLayout(null);
 		
-		JLabel lblCreateGame = new JLabel("Create Game");
+		JLabel lblCreateGame = new JLabel("Create Game"); //Create Game overskriften på siden, dens font, skrifttype og placering på siden
 		lblCreateGame.setFont(new Font("Tempus Sans ITC", Font.BOLD, 22));
 		lblCreateGame.setBounds(34, 11, 141, 30);
 		this.add(lblCreateGame);
 		
-		JLabel lblToCreateGame = new JLabel("<html>To create a new game<br/> please type a game name below</html>");
+		JLabel lblToCreateGame = new JLabel("<html>To create a new game<br/> please type a game name below</html>"); //JLabel med forklarende tekst til brugeren
 		lblToCreateGame.setBounds(34, 48, 147, 56);
 		this.add(lblToCreateGame);
 		
@@ -70,29 +71,31 @@ public class GUICreateGame extends JPanel {
 		this.add(textField);
 		textField.setColumns(10);
 		
-		JButton btnNewButton = new JButton("Create Game");
+		JButton btnNewButton = new JButton("Create Game"); //Create Game knappen som er en JButton
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseClicked(MouseEvent e) { //Tilføjet event handler som er sat til mouseclicked
 				
-				GUICreateGame This = (GUICreateGame) (e.getComponent().getParent());
+				GUICreateGame This = (GUICreateGame) (e.getComponent().getParent()); //Component spørg hvad e er, som er vores mouseclicked, og getParent er hele siden den er på
 								
-				JSONObject CreateGame = new JSONObject(); 
+				JSONObject CreateGame = new JSONObject(); //oprette et JSONObject variable som hedder CreateGame og modtager nyt JSONObject 
 				
 				try {
-					CreateGame.put("Method", "CreateGame");
-					CreateGame.put("Username", This.client.getCurrentUser());
-					CreateGame.put("GameName", This.textField.getText()); 
-					JSONObject success = This.client.MessageToServer(CreateGame);
+					CreateGame.put("Method", "CreateGame"); //Spørg efter method, som her er CreateGame
+					CreateGame.put("Username", This.client.getCurrentUser()); //Der indsættes en værdi i CreateGame under Username som indeholder this.client.getCurrentUser 
+					CreateGame.put("GameName", This.textField.getText()); //Indsættes værdien GameName, som indeholder This.textField.getText
 					
-					if (success != null && success.has("Result")) {	
+					JSONObject success = This.client.MessageToServer(CreateGame); //Her oprettes en ny JSONObject variable, som sætter CreateGame ind i den nye variable som hedder success
+					
+					if (success != null && success.has("Result")) {	//Hvis CreateGame er rigtigt og har et resultat, bliver den sendt videre
 						
-						if (success.getBoolean("Result")) {
-							This.client.changePage(new ActualGame(This.client, This.textField.getText()));
+						if (success.getBoolean("Result")) { //Her undersøges om resultatet er sandt eller falsk
+							
+							This.client.changePage(new ActualGame(This.client, This.textField.getText())); //Efter man har oprettet et nyt spil kommer man ind på ActualGame siden
 						}
 					}
 					 	
@@ -106,14 +109,14 @@ public class GUICreateGame extends JPanel {
 		btnNewButton.setBounds(34, 132, 111, 45);
 		this.add(btnNewButton);
 		
-		JButton btnGetBack = new JButton("Get Back");
+		JButton btnGetBack = new JButton("Get Back"); //Knappen fører brugeren tilbage til menu siden
 		btnGetBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
 		btnGetBack.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseClicked(MouseEvent e) { 
 				
 				GUICreateGame This = (GUICreateGame) (e.getComponent().getParent());
 				
@@ -124,43 +127,43 @@ public class GUICreateGame extends JPanel {
 		btnGetBack.setBounds(290, 266, 89, 23);
 		this.add(btnGetBack);
 		
-		JLabel label = new JLabel("Join Game");
+		JLabel label = new JLabel("Join Game"); //Join Game knappen som er en JButton
 		label.setFont(new Font("Tempus Sans ITC", Font.BOLD, 22));
 		label.setBounds(195, 11, 141, 30);
 		add(label);
 		
-		JLabel label_1 = new JLabel("<html>Select a game<br/>you want to join </html>");
+		JLabel label_1 = new JLabel("<html>Select a game<br/>you want to join </html>"); //JLabel med forklarende tekst til brugeren
 		label_1.setBounds(191, 41, 147, 56);
 		add(label_1);
 		
 		JButton button = new JButton("Join Game");
 		button.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseClicked(MouseEvent e) { //Tilføjet event handler som er sat til mouseclicked
 				
-				GUICreateGame This = (GUICreateGame) (e.getComponent().getParent());
+				GUICreateGame This = (GUICreateGame) (e.getComponent().getParent()); //Component spørg hvad e er, som er vores mouseclicked, og getParent er hele siden den er på
 				
-				JSONObject JoinGame = new JSONObject();
+				JSONObject JoinGame = new JSONObject(); //oprette et JSONObject variable som hedder JoinGame og modtager nyt JSONObject 
 				
-				item Selection = (item) This.list.getSelectedValue();
+				item Selection = (item) This.list.getSelectedValue(); //Opretter et item objekt som har navnet Selection, som indeholder (item) og det indeholder This.list.getSelectedValue som er det brugeren har valgt på siden
 				
-				if (Selection != null) {
+				if (Selection != null) { //Hvis Selection ikke er nul, kører try
 				
 					try {
 									            
-						JoinGame.put("GameName", Selection.gameName);
-			            JoinGame.put("Username", This.client.getCurrentUser());
-			            JoinGame.put("Method", "JoinGame");
+						JoinGame.put("GameName", Selection.gameName); //Indsættes værdien GameName, som indeholder This.textField.getText
+			            JoinGame.put("Username", This.client.getCurrentUser()); //Der indsættes en værdi i JoinGame under Username som indeholder this.client.getCurrentUser 
+			            JoinGame.put("Method", "JoinGame"); //Spørg efter method, som her er JoinGame
 			            
-			            JSONObject Response = This.client.MessageToServer(JoinGame);
+			            JSONObject Response = This.client.MessageToServer(JoinGame); //Her oprettes en ny JSONObject variable, som sætter JoinGame ind i den nye variable som hedder Response
 			            
-			            if (Response != null && Response.has("Result")) {
+			            if (Response != null && Response.has("Result")) { //Hvis Response (JoinGame) er rigtigt og har et resultat, bliver den sendt videre
 			                
-			                boolean ThisResult = Response.getBoolean("Result");
+			                boolean ThisResult = Response.getBoolean("Result"); //Her undersøges om resultatet er sandt eller falsk
 			                
 			                if (ThisResult) {
 			                	
-			                	This.client.changePage(new ActualGame(This.client, Selection.gameName));
+			                	This.client.changePage(new ActualGame(This.client, Selection.gameName)); //Hvis resultatet er sandt sendes brugeren videre til ActualGame siden
 			                	
 			                }
 			            }
@@ -176,21 +179,21 @@ public class GUICreateGame extends JPanel {
 		button.setBounds(187, 184, 111, 45);
 		add(button);
 		
-		JSONObject ShowGames = new JSONObject();
+		JSONObject ShowGames = new JSONObject(); //oprette et JSONObject variable som hedder ShowGames og modtager nyt JSONObject 
 		
-		JSONObject Response;
+		JSONObject Response; //Her oprettes et JSONObject Response 
 		
-		JSONArray GameList = null;
+		JSONArray GameList = null; //Her oprettes et JSONArray GameList som er sat til null
 		
 		try {
             
-            ShowGames.put("Method", "ShowGames");
+            ShowGames.put("Method", "ShowGames"); //Spørg efter method, som her er ShowGames
             
-            Response = this.client.MessageToServer(ShowGames);
+            Response = this.client.MessageToServer(ShowGames); //Her oprettes en ny JSONObject variable, som sætter ShowGames ind i den nye variable som hedder Response
             
-            if (Response != null && Response.has("Result")) {
+            if (Response != null && Response.has("Result")) { //Hvis Response (ShowGames) er rigtigt og har et resultat, bliver den sendt videre
                 
-                GameList = Response.getJSONArray("Result");  
+                GameList = Response.getJSONArray("Result"); //Her oprettes en ny JSONArray variable, som sætter Result ind i den nye variable som hedder GameList
             }
             
         } catch (JSONException e1) {
@@ -198,25 +201,27 @@ public class GUICreateGame extends JPanel {
             e1.printStackTrace();
         }
 		
-		list = new JList();
+		list = new JList(); //En JList som viser hvilke spil man kan tilslutte 
 		list.setBorder(new LineBorder(UIManager.getColor("Button.shadow")));
 		list.setBackground(Color.WHITE);
 		list.setBounds(187, 99, 150, 78);
 		add(list);
 		
-		if (GameList != null) {
+		if (GameList != null) { // Hvis GameList ikker er null så kører if'en
 			
-			DefaultListModel listModel = new DefaultListModel();
+			DefaultListModel listModel = new DefaultListModel(); //Oprettes en DefaultListModel variable som hedder listModel
 			
-			JSONObject CurrentGame;
+			JSONObject CurrentGame; //JSONObject CurrentGame bliver oprettet
 			
-			for (int i = 0; i < GameList.length(); i++) {
+			for (int i = 0; i < GameList.length(); i++) { //I for loop laves en int som hedder i og sættes lig med 0. Hvis i er mindre end GameList, så kører try, og loppet kører igen og 1 lægges for hver gang
+
 				
 				try {
 					
-					CurrentGame = GameList.getJSONObject(i);
+					CurrentGame = GameList.getJSONObject(i); // CurrentGame indeholder en GameList som indeholder et JSONObject i
 					
-					listModel.addElement(new item(CurrentGame.getInt("Highscore"), CurrentGame.getString("Name")));
+					listModel.addElement(new item(CurrentGame.getInt("Highscore"), CurrentGame.getString("Name"))); //listModel tilføjer et element som kaldes new item som indeholder CurrentGame.getInt("Highscore") og CurrentGame.getString("Name")
+
                     
 			    } catch (JSONException e1) {
 		            // TODO Auto-generated catch block
@@ -227,24 +232,24 @@ public class GUICreateGame extends JPanel {
 			}
 			
 			list.setModel(listModel);
-			list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); //Gør at man kun kan vælge et spil af gangen
 			
-			JScrollPane scrollPane_1 = new JScrollPane(list);
+			JScrollPane scrollPane_1 = new JScrollPane(list); //Tilføjer et scrollpane så man kan rulle op og ned i spillene
 	        scrollPane_1.setBounds(187, 99, 150, 78);
 	        this.add(scrollPane_1);
 			
 			
 		}
 		
-		JButton btnOpdate = new JButton("Opdate");
+		JButton btnOpdate = new JButton("Opdate"); //En opdater knap 
 		btnOpdate.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		btnOpdate.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseClicked(MouseEvent e) { //Event handler med et mousecliced 
 				
-				GUICreateGame This = (GUICreateGame) (e.getComponent().getParent());
+				GUICreateGame This = (GUICreateGame) (e.getComponent().getParent()); //Component spørg hvad e er, som er vores mouseclicked, og getParent er hele siden den er på
 				
-				This.client.changePage(new GUICreateGame(This.client));
+				This.client.changePage(new GUICreateGame(This.client)); //Opdatere siden så man kommer ind på den samme
 			}
 			
 		});
